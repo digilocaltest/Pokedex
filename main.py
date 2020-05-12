@@ -18,6 +18,7 @@ window.title('PokeDex') #Damos un titulo a la ventana
 ## funciones -----
 # definimos nuestra funcion para coger de la bd
 def get_pokemon_data(num):
+  
   r = requests.get('https://pokeapi.co/api/v2/pokemon/'+ str(num)) # Llamammos a la api the pokemon y guardamos el resultado en r
 
   pokemon_dictionary = r.json() #pasamos json a python format
@@ -27,18 +28,20 @@ def get_pokemon_data(num):
 # nueva funcion para mostrar nuestros datos
 def show_pokemon_data():
   pokemon_number = txt_pokemon_number.get() # Cogemos el numero escrito en la text area
-
+  txt_pokemon_number.delete(0,99) # limpiamos el text box
   pokemon_data = get_pokemon_data(pokemon_number) #llamamos aApi funcion y le pasamos el numero del text area
-  
-  lbl_name_value.config(text = pokemon_data['name']) #Actualizamos el label name value ????? con el resultado de pokemon index ['Name']
-
-  ## StATS
-  lbl_HP_value.config(text = pokemon_data['stats'][5]['base_stat'])
-  lbl_ATC_value.config(text = pokemon_data['stats'][4]['base_stat'])
-  lbl_DEF_value.config(text = pokemon_data['stats'][3]['base_stat'])
-  lbl_SPD_value.config(text = pokemon_data['stats'][0]['base_stat'])
-  
-  ##
+  #try get this data
+  try:
+    lbl_name_value.config(text = pokemon_data['name']) #Actualizamos el label name value ????? con el resultado de pokemon index ['Name']
+    ## StATS
+    lbl_HP_value.config(text = pokemon_data['stats'][5]['base_stat'])
+    lbl_ATC_value.config(text = pokemon_data['stats'][4]['base_stat'])
+    lbl_DEF_value.config(text = pokemon_data['stats'][3]['base_stat'])
+    lbl_SPD_value.config(text = pokemon_data['stats'][0]['base_stat'])
+    
+    ## si no cambiamos el label_number box por, invalid choice
+  except:
+    txt_pokemon_number.insert(0, 'Invalid choice')
 
 ## ------
 ## -- Interface
