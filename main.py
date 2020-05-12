@@ -1,5 +1,8 @@
 import requests # getting data into python, popular apis, urllib an request
 import tkinter as tk
+from io import BytesIO # LIBRERIAS PARA UTILIZAR IMAGENES
+from PIL import Image, ImageTk
+
 
 ## > fonts
 
@@ -16,7 +19,8 @@ window.title('PokeDex') #Damos un titulo a la ventana
 #window.geometry("400x450200+200") #Width Height
 
 ## funciones -----
-# definimos nuestra funcion para coger de la bd
+
+# definimos nuestra funcion para DATOS API de la bd
 def get_pokemon_data(num):
   
   r = requests.get('https://pokeapi.co/api/v2/pokemon/'+ str(num)) # Llamammos a la api the pokemon y guardamos el resultado en r
@@ -29,7 +33,8 @@ def get_pokemon_data(num):
 def show_pokemon_data():
   pokemon_number = txt_pokemon_number.get() # Cogemos el numero escrito en la text area
   txt_pokemon_number.delete(0,99) # limpiamos el text box
-  pokemon_data = get_pokemon_data(pokemon_number) #llamamos aApi funcion y le pasamos el numero del text area
+  pokemon_data = get_pokemon_data(pokemon_number) 
+  pokemon_image = get_pokemon_image(pokemon_number)#llamamos aApi funcion y le pasamos el numero del text area
   #try get this data
   try:
     lbl_name_value.config(text = pokemon_data['name']) #Actualizamos el label name value ????? con el resultado de pokemon index ['Name']
@@ -38,12 +43,31 @@ def show_pokemon_data():
     lbl_ATC_value.config(text = pokemon_data['stats'][4]['base_stat'])
     lbl_DEF_value.config(text = pokemon_data['stats'][3]['base_stat'])
     lbl_SPD_value.config(text = pokemon_data['stats'][0]['base_stat'])
-    
+    ## fin stats
+    ## IMAGEN ------
+    lbl_image.config(image = pokemon_image)
+    lbl_image.image = pokemon_image
+    ## FIN IMAGEN
     ## si no cambiamos el label_number box por, invalid choice
   except:
     txt_pokemon_number.insert(0, 'Invalid choice')
 
+## funcion para coger y manipuar imagines para tkinter
+def get_pokemon_image(num):
+  #load data 
+  image_bytes = requests.get("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+ str(num)+ ".png")
+
+  #tkinter no carga images directamente. tenemos que convertirlos primero
+  data_stream = BytesIO(image_bytes.content)
+  # Despues utilizamos python image library para abrir data_stream
+  pil_image = Image.open(data_stream)
+  #Finalmente convertimos pil_image a algo que tkinter puede gestionar
+  tk_image = ImageTk.PhotoImage(pil_image)
+  # devolvermos nuestra image
+  return tk_image
 ## ------
+
+
 ## -- Interface
 lbl_instructions = tk.Label(window,
 text = 'Enter a number between 1 and 718',
@@ -72,6 +96,10 @@ bg = '#1A1110',
 fg = '#FEFEFE',
 font = large_font)
 lbl_name_value.pack()
+
+lbl_image = tk.Label(window)
+lbl_image.config(bg = '#0093d5')
+lbl_image.pack()
 
 
 lbl_HP_text = tk.Label(window,
