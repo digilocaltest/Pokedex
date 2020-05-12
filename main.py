@@ -13,7 +13,7 @@ window = tk.Tk() # Creamos una nueva ventana
 
 window.config(bg = '#253529') #Color del background
 window.title('PokeDex') #Damos un titulo a la ventana
-window.geometry("400x150+200+200") #Width Height
+#window.geometry("400x450200+200") #Width Height
 
 ## funciones -----
 # definimos nuestra funcion para coger de la bd
@@ -32,6 +32,14 @@ def show_pokemon_data():
   
   lbl_name_value.config(text = pokemon_data['name']) #Actualizamos el label name value ????? con el resultado de pokemon index ['Name']
 
+  ## StATS
+  lbl_HP_value.config(text = pokemon_data['stats'][5]['base_stat'])
+  lbl_ATC_value.config(text = pokemon_data['stats'][4]['base_stat'])
+  lbl_DEF_value.config(text = pokemon_data['stats'][3]['base_stat'])
+  lbl_SPD_value.config(text = pokemon_data['stats'][0]['base_stat'])
+  
+  ##
+
 ## ------
 ## -- Interface
 lbl_instructions = tk.Label(window,
@@ -49,7 +57,7 @@ command = show_pokemon_data)
 btn_get_info.pack() # añadimos un boton para recoger los datos
 
 ## Añadimos mas labels para mostrar los datos que recogeremos
-
+## resutl data labels
 lbl_name_text = tk.Label(window,
 text = 'Name: ',
 bg = '#1A1110',
@@ -61,6 +69,55 @@ bg = '#1A1110',
 fg = '#FEFEFE',
 font = large_font)
 lbl_name_value.pack()
+
+
+lbl_HP_text = tk.Label(window,
+text = 'Hp: ',
+bg = '#1A1110',
+fg = '#FEFEFE',
+font = medium_font)
+lbl_HP_text.pack()
+lbl_HP_value = tk.Label(window, text = '???',
+bg = '#1A1110',
+fg = '#FEFEFE',
+font = large_font)
+lbl_HP_value.pack()
+
+lbl_ATC_text = tk.Label(window,
+text = 'Atack: ',
+bg = '#1A1110',
+fg = '#FEFEFE',
+font = medium_font)
+lbl_ATC_text.pack()
+lbl_ATC_value = tk.Label(window, text = '???',
+bg = '#1A1110',
+fg = '#FEFEFE',
+font = large_font)
+lbl_ATC_value.pack()
+
+lbl_DEF_text = tk.Label(window,
+text = 'Defense: ',
+bg = '#1A1110',
+fg = '#FEFEFE',
+font = medium_font)
+lbl_DEF_text.pack()
+lbl_DEF_value = tk.Label(window, text = '???',
+bg = '#1A1110',
+fg = '#FEFEFE',
+font = large_font)
+lbl_DEF_value.pack()
+
+lbl_SPD_text = tk.Label(window,
+text = 'Speed: ',
+bg = '#1A1110',
+fg = '#FEFEFE',
+font = medium_font)
+lbl_SPD_text.pack()
+lbl_SPD_value = tk.Label(window, text = '???',
+bg = '#1A1110',
+fg = '#FEFEFE',
+font = large_font)
+lbl_SPD_value.pack()
 
 ## ---
 
